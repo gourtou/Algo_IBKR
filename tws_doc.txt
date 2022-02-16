@@ -1,0 +1,7 @@
+TWS configuration settings
+1) Enable ActiveX Socket Clients - must be enabled to allow the TWS to accept API connections.
+2) Read-Only API: Uncheck this as sending orders to the TWS require write access.
+3) Socket Port: Set to 7496 for regular brokerage accounts and 7497 for paper trading accounts.
+4) Logging Level: Set to "Detail" as this records all program logs that can be used for future reference or debugging.
+5) Allow Connections from localhost only (if using the localhost to send requests).
+    Change this later if access from an external or virtual machine.
