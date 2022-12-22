@@ -1,0 +1,8 @@
+pandas-datareader
+ibapi~=9.76.1
+setuptools~=57.0.0
+pytz~=2021.3
+numpy~=1.22
+pandas~=1.2.4
+ta~=0.10.0
+yfinance~=0.1.63
