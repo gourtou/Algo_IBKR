@@ -16,16 +16,17 @@ from test_client import *
 AVAILABLE_FUNDS = 0
 BUYING_POWER = 0
 POSITIONS = {}
+PRICE = 1000000
 
 
 # Below are the custom classes and methods
-def contract_create():
+def contract_create(symbol):
     contract = Contract()
-    contract.symbol = "MSFT"
+    contract.symbol = symbol
     contract.secType = "STK"
     contract.currency = "USD"
     contract.exchange = "SMART"
-    contract.primaryExchange = "ISLAND"
+    contract.primaryExchange = "ISLAND"     # primary exchange
     return contract
 
 
@@ -34,17 +35,21 @@ def order_create():
     order.action = 'BUY'
     order.orderType = 'MKT'
     order.transmit = True
-    order.totalQuantity = 10
+    order.totalQuantity = 10    # quantity to buy/sell
     return order
 
 
-def order_execution():
-    contract = contract_create()
+def order_execution(symbol):
+    contract = contract_create(symbol)
     order = order_create()
     next_id = app.next_order_id()
+    time.sleep(2)
+    print('ticker', contract.symbol, 'price:', PRICE)
+
     print('Next valid id:' + str(next_id))
     print('Buying Power:' + str(BUYING_POWER))
     print('Available Funds:' + str(AVAILABLE_FUNDS))
+
     app.placeOrder(next_id, contract, order)
     print('order placed with id', next_id)
 
@@ -56,6 +61,7 @@ def print_positions():
         cost = value['average cost']
         print(symbol, quantity, cost)
     return
+
 
 # Below is the TestApp
 class TestApp(TestWrapper, TestClient):
@@ -75,6 +81,7 @@ class TestApp(TestWrapper, TestClient):
 
 # Below is the program execution
 if __name__ == '__main__':
+    print('starting...')
     app = TestApp('127.0.0.1', 7497, 0)  # IP address, port (7496 for real, 7497 - for paper), clientId
     print('the program has begun')
     requested_time = app.server_clock()
@@ -84,6 +91,7 @@ if __name__ == '__main__':
     for i in range(2):
         time.sleep(2)
         #order_execution()
+        print_positions()
 
 
 

@@ -35,3 +35,7 @@ class TestClient(EClient):
 
     def position_update(self):
         self.reqPositions()
+
+    def price_update(self, contract, ticker_id):
+        self.reqMktData(ticker_id, contract, '', False, False, [])
+        return ticker_id

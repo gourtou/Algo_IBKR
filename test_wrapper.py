@@ -48,9 +48,10 @@ class TestWrapper(EWrapper):
     def currentTime(self, server_time):     # override
         self.my_time_queue.put(server_time)
 
-    def nextValidId(self, order_id):        # override
+    # Orders Id handling methods
+    def next_valid_id(self, order_id):        # override
         super().nextValidId(order_id)
-        logging.debug('setting nextValidId:', order_id)
+        logging.debug('setting nextValidId: %d', order_id)
         self.next_valid_order_id = order_id
 
     def next_order_id(self):
@@ -58,17 +59,17 @@ class TestWrapper(EWrapper):
         self.next_valid_order_id += 1
         return valid_order_id
 
-    def accountSummary(self, req_id, account, tag, value, currency):
+    def account_summary(self, req_id, account, tag, value, currency):
         super().accountSummary(req_id, account, tag, value, currency)
         print('account', req_id, account, tag, value, currency)
         if tag == 'AvailableFunds':
             global AVAILABLE_FUNDS
             AVAILABLE_FUNDS = value
-        if tag == 'BuyingPower':
+        elif tag == 'BuyingPower':
             global BUYING_POWER
             BUYING_POWER = value
 
-    def accountSummaryEnd(self, req_id):
+    def account_summary_end(self, req_id):
         super().accountSummaryEnd(req_id)
         print('account summary ended', req_id)
 
@@ -76,3 +77,28 @@ class TestWrapper(EWrapper):
         super().position(account, contract, position, avg_cost)
         global POSITIONS
         POSITIONS[contract.symbol] = {'position': position, 'average cost': avg_cost}
+
+    # market data handling
+    def tick_price(self, ticker_id, tick_type, price, tick_attribute):
+        super().tickPrice(ticker_id, tick_type, price, tick_attribute)
+        print(ticker_id, tick_type, price, tick_attribute)
+        global PRICE
+        global PRICE_BOOL
+
+        if tick_type == 4:      # 4 - last price
+            print('last price:', price)
+            PRICE = price
+            PRICE_BOOL = True
+        elif tick_type == 9:      # 9 - close price
+            print('close price:', price)
+            PRICE = price
+            PRICE_BOOL = True
+
+    def tick_size(self, ticker_id, tick_type, size):
+        super().tickSize(ticker_id, tick_type, size)
+
+    def tick_string(self, ticker_id, tick_type, string):
+        super().tickString(ticker_id, tick_type, string)
+
+    def tick_generic(self, ticker_id, tick_type, value):
+        super().tickGeneric(ticker_id, tick_type, value)

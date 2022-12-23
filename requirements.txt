@@ -6,3 +6,5 @@ numpy~=1.22
 pandas~=1.2.4
 ta~=0.10.0
 yfinance~=0.1.63
+requests~=2.0
+beautifulsoup4~=4.0
