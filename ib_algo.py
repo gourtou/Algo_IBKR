@@ -10,6 +10,7 @@ import time
 import math
 from test_wrapper import *
 from test_client import *
+from scraper import *
 
 
 # Global variables
@@ -17,6 +18,7 @@ AVAILABLE_FUNDS = 0
 BUYING_POWER = 0
 POSITIONS = {}
 PRICE = 1000000
+CYCLE = 12       # frequency of server requests
 
 
 # Below are the custom classes and methods
@@ -42,9 +44,11 @@ def order_create():
 def order_execution(symbol):
     contract = contract_create(symbol)
     order = order_create()
+    app.price_update(contract, app.next_order_id())
     next_id = app.next_order_id()
-    time.sleep(2)
+    #time.sleep(2)
     print('ticker', contract.symbol, 'price:', PRICE)
+
 
     print('Next valid id:' + str(next_id))
     print('Buying Power:' + str(BUYING_POWER))
@@ -61,6 +65,7 @@ def print_positions():
         cost = value['average cost']
         print(symbol, quantity, cost)
     return
+
 
 
 # Below is the TestApp
@@ -88,10 +93,12 @@ if __name__ == '__main__':
     print('current server time', requested_time)
     app.account_update()
     app.position_update()
+
     for i in range(2):
         time.sleep(2)
         #order_execution()
         print_positions()
+
 
 
 
