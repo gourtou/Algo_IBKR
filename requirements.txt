@@ -8,4 +8,4 @@ ta~=0.10.0
 yfinance~=0.1.63
 requests~=2.21
 beautifulsoup4~=4.0
-mutitasking~=0.0.11
+multitasking~=0.0.7

@@ -81,7 +81,7 @@ class TestWrapper(EWrapper):
     # market data handling
     def tick_price(self, ticker_id, tick_type, price, tick_attribute):
         super().tickPrice(ticker_id, tick_type, price, tick_attribute)
-        print(ticker_id, tick_type, price, tick_attribute)
+        # print(ticker_id, tick_type, price, tick_attribute)
         global PRICE
         global PRICE_BOOL
 

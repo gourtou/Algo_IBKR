@@ -31,7 +31,7 @@ class TestClient(EClient):
         return request_time
 
     def account_update(self):
-        self.reqAccountSummary(7001, 'All', 'TotalCashValue, BuyingPower, AvailableFunds')
+        self.reqAccountSummary(9001, 'All', 'TotalCashValue, BuyingPower, AvailableFunds')
 
     def position_update(self):
         self.reqPositions()

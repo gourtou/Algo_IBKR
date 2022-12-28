@@ -11,7 +11,7 @@ TEXTS = []       # news headlines
 CYCLE = 4
 
 
-def search_economist():
+def search_economist(headlines):
     page_link = 'https://www.economist.com/'
     page_response = requests.get(page_link, timeout=30)
     page_content = BeautifulSoup(page_response.content, 'html.parser')
@@ -20,12 +20,13 @@ def search_economist():
         if link.text not in TEXTS:
             print(link.text)    # Prints the title so we can verify correct operation
             TEXTS.append(link.text)     # Appends the headline to our main array
-            headline_holder.append(link.text)
+            headlines.append(link.text)
     print("Economist Done")
     time.sleep(5)   # required by the Economist in robots.txt
+    return headlines
 
 
-def search_seekingalpha():
+def search_seekingalpha(headlines):
     page_link = 'https://seekingalpha.com/market-news/all'
     page_response = requests.get(page_link, timeout=30)
     page_content = BeautifulSoup(page_response.content, 'html.parser')
@@ -34,12 +35,13 @@ def search_seekingalpha():
         if link.div.a.text not in TEXTS:
             print(link.text)    # Prints the title so we can verify correct operation
             TEXTS.append(link.div.a.text)     # Appends the headline to our main array
-            headline_holder.append(link.div.a.text)
+            headlines.append(link.div.a.text)
     print("Seeking Alpha Done")
     time.sleep(1)
+    return headlines
 
 
-def search_cnn():
+def search_cnn(headlines):
     page_link = 'https://www.cnn.com/specials/last-50-stories'  # Page Url to point request where to crawl
     page_response = requests.get(page_link, timeout=30)  # Get request to ask for page content
     page_content = BeautifulSoup(page_response.content, "html.parser")  # Ask Beautiful soup to parse for content
@@ -48,12 +50,13 @@ def search_cnn():
         if link.text not in TEXTS:
             # print(link.text)	# Prints the title so we can verify correct operation
             TEXTS.append(link.text)  # Appends the headline to our main array
-            headline_holder.append(link.text)
+            headlines.append(link.text)
     print("CNN Done")
     time.sleep(1)
+    return headlines
 
 
-def search_reuters():
+def search_reuters(headlines):
     page_link = 'https://www.reuters.com/'  # Page Url to point request where to crawl
     page_response = requests.get(page_link, timeout=30)  # Get request to ask for page content
     page_content = BeautifulSoup(page_response.content,"html.parser")  # Ask Beautiful soup to parse for content
@@ -62,9 +65,10 @@ def search_reuters():
         if link.text not in TEXTS:
             # print(link.text)	# Prints the title so we can verify correct operation
             TEXTS.append(link.text)  # Appends the headline to our main array
-            headline_holder.append(link.text)
+            headlines.append(link.text)
     print("Reuters Done")
     time.sleep(1)
+    return headlines
 
 
 def headline_analysis(headline):
@@ -82,24 +86,41 @@ def headline_analysis(headline):
         result = 'no_change'
     return result
 
-if __name__ == '__main__':
 
-    cycle_count = 0
+def scrape():
     headline_holder = []
+    search_economist(headline_holder)
+    search_seekingalpha(headline_holder)
+    search_cnn(headline_holder)
+    search_reuters(headline_holder)
+    for entry in headline_holder:
+        print(entry)
+        result = headline_analysis(entry)
+        if result != 'no_change':
+            # order_
+            return result
+    time.sleep(randint(1, 5))
+    return 'no_change'
 
-    while True:
-        search_economist()
-        search_seekingalpha()
-        search_cnn()
-        search_reuters()
-        cycle_count += 1
-        print('Search finished, cycle', cycle_count)
-        if cycle_count == CYCLE:
-            headline_holder.append('Apple exceeds expectations')
 
-        for entry in headline_holder:
-            print(entry)
-            headline_analysis(entry)
-
-        headline_holder = []
-        time.sleep(randint(1, 5))
+# if __name__ == '__main__':
+#
+#     cycle_count = 0
+#     headline_holder = []
+#
+#     while True:
+#         search_economist()
+#         search_seekingalpha()
+#         search_cnn()
+#         search_reuters()
+#         cycle_count += 1
+#         print('Search finished, cycle', cycle_count)
+#         if cycle_count == CYCLE:
+#             headline_holder.append('Apple exceeds expectations')
+#
+#         for entry in headline_holder:
+#             print(entry)
+#             headline_analysis(entry)
+#
+#         headline_holder = []
+#         time.sleep(randint(1, 5))
