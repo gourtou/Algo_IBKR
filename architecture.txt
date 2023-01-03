@@ -1,0 +1,10 @@
+ib_algo - main program
+test_wrapper - wrapper class
+test_client - client class
+
+tech - technical analysis indicators
+scraper - scraping newsfeed
+logic - logic
+
+
+

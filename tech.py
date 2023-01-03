@@ -40,7 +40,7 @@ if __name__ == '__main__':
     contract = contract_create('BA')
     time_str = datetime.now(pytz.timezone('US/Eastern')).strftime('%Y%m%d %H:%M:%S')
     time_for_histdata = datetime.strptime(time_str, '%Y%m%d %H:%M:%S')
-    # data = client.EClient.reqHistoricalData(contract, time_for_histdata.strftime('%Y%m%d %H:%M:%S US/Eastern'), '5 D', '1 hour', 'TRADES', True, 1, keepUpToDate=False)
+    data = client.EClient.reqHistoricalData(1, contract, time_for_histdata.strftime('%Y%m%d %H:%M:%S US/Eastern'), '5 D', '1 hour', 'TRADES', True, 1, False, [])
     ticker = yf.Ticker('BA')
     raw_data = ticker.history('1mo', '15m')
     raw_data.index.rename('Datetime', inplace=True)

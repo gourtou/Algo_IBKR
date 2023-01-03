@@ -38,7 +38,7 @@ def contract_create(symbol):
 
 def order_create(quantity=1):
     order = Order()
-    if quantity >=0:
+    if quantity >= 0:
         order.action = 'BUY'
         order.totalQuantity = quantity
     else:
@@ -114,9 +114,9 @@ def scrape():
         result = headline_analysis(entry)
         if result != 'no_change':
             order_execution(stock)
-            return result
+            return
     time.sleep(randint(1, 5))
-    return 'no_change'
+    return
 
 
 # Below is the TestApp
@@ -145,7 +145,9 @@ if __name__ == '__main__':
     app.account_update()
     app.position_update()
     time.sleep(3)
-    order_execution(stock)
+
+
+    #order_execution()
 
     print_positions()
 
